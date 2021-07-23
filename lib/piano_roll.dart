@@ -189,9 +189,7 @@ class _PianoControl extends HookWidget {
             this.setKeyValueAtTop(startTopKeyValue.value - keyDelta);
           },
         ),
-        SizedBox(
-          width: 1,
-        ),
+        SizedBox(width: 1),
         Expanded(
           child: Container(
             // clipBehavior: Clip.hardEdge,
@@ -216,7 +214,18 @@ class _PianoControl extends HookWidget {
                         ),
                       ),
                     );
-                  } else {}
+                  } else {
+                    keys.add(
+                      Positioned(
+                        top: keyPosAccumulator,
+                        left: 0,
+                        right: 23,
+                        child: _BlackKey(
+                          keyNumber: i,
+                        ),
+                      ),
+                    );
+                  }
 
                   keyPosAccumulator += keyHeight;
                 }
@@ -247,49 +256,59 @@ class _WhiteKey extends HookWidget {
     // 41 / 22
 
     return SizedBox(
-      height: widgetHeight,
-      child: Column(
+      height: widgetHeight - 1,
+      child: Row(
         children: [
           Expanded(
-            child: Row(
+            child: Column(
               children: [
+                SizedBox(height: hasTopNotch ? 10 : 0),
                 Expanded(
-                  child: Column(
-                    children: [
-                      SizedBox(height: hasTopNotch ? 10 : 0),
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(1),
-                              bottomLeft: Radius.circular(1),
-                            ),
-                            color: Color(0xFFFFFFFF).withOpacity(0.6),
-                          ),
-                        ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(1),
+                        bottomLeft: Radius.circular(1),
                       ),
-                      SizedBox(height: hasBottomNotch ? 10 : 0),
-                    ],
-                  ),
-                ),
-                Container(
-                  width: 22,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(hasTopNotch ? 1 : 0),
-                      bottomLeft: Radius.circular(hasBottomNotch ? 1 : 0),
-                      topRight: Radius.circular(1),
-                      bottomRight: Radius.circular(1),
+                      color: Color(0xFFFFFFFF).withOpacity(0.6),
                     ),
-                    color: Color(0xFFFFFFFF).withOpacity(0.6),
                   ),
                 ),
+                SizedBox(height: hasBottomNotch ? 10 : 0),
               ],
             ),
           ),
-          SizedBox(height: 1),
+          Container(
+            width: 22,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(hasTopNotch ? 1 : 0),
+                bottomLeft: Radius.circular(hasBottomNotch ? 1 : 0),
+                topRight: Radius.circular(1),
+                bottomRight: Radius.circular(1),
+              ),
+              color: Color(0xFFFFFFFF).withOpacity(0.6),
+            ),
+          ),
         ],
       ),
+    );
+  }
+}
+
+class _BlackKey extends HookWidget {
+  const _BlackKey({Key? key, required this.keyNumber}) : super(key: key);
+
+  final int keyNumber;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(1)),
+        color: Color(0xFFFFFFFF).withOpacity(0.07),
+      ),
+      height: 19,
     );
   }
 }
