@@ -129,8 +129,8 @@ KeyType getKeyType(int key) {
     case 1:
     case 4:
     case 6:
-    case 8:
-    case 10:
+    case 9:
+    case 11:
       return KeyType.BLACK;
     default:
       return KeyType.WHITE;
@@ -182,7 +182,6 @@ class _PianoControl extends HookWidget {
           onPointerDown: (e) {
             startPixelValue.value = e.localPosition.dy;
             startTopKeyValue.value = keyValueAtTop;
-            print(startTopKeyValue.value);
           },
           onPointerMove: (e) {
             final keyDelta =
@@ -193,8 +192,104 @@ class _PianoControl extends HookWidget {
         SizedBox(
           width: 1,
         ),
-        Text(keyValueAtTop.toStringAsFixed(3)),
+        Expanded(
+          child: Container(
+            // clipBehavior: Clip.hardEdge,
+            child: Stack(
+              children: (() {
+                var keys = <Widget>[];
+                double keyPosAccumulator = -(keyValueAtTop * keyHeight);
+                for (var i = 87; i >= 0; i--) {
+                  if (getKeyType(i) == KeyType.WHITE) {
+                    var notchType = getNotchType(i);
+                    var hasTopNotch = notchType == NotchType.ABOVE ||
+                        notchType == NotchType.BOTH;
+
+                    keys.add(
+                      Positioned(
+                        top: keyPosAccumulator -
+                            (hasTopNotch ? keyHeight / 2 : 0),
+                        left: 0,
+                        right: 0,
+                        child: _WhiteKey(
+                          keyNumber: i,
+                        ),
+                      ),
+                    );
+                  } else {}
+
+                  keyPosAccumulator += keyHeight;
+                }
+                return keys;
+              })(),
+            ),
+          ),
+        ),
       ],
+    );
+  }
+}
+
+class _WhiteKey extends HookWidget {
+  const _WhiteKey({Key? key, required this.keyNumber}) : super(key: key);
+
+  final int keyNumber;
+
+  @override
+  Widget build(BuildContext context) {
+    var notchType = getNotchType(keyNumber);
+    double widgetHeight = notchType == NotchType.BOTH ? 40 : 30;
+    var hasTopNotch =
+        notchType == NotchType.BOTH || notchType == NotchType.ABOVE;
+    var hasBottomNotch =
+        notchType == NotchType.BOTH || notchType == NotchType.BELOW;
+
+    // 41 / 22
+
+    return SizedBox(
+      height: widgetHeight,
+      child: Column(
+        children: [
+          Expanded(
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    children: [
+                      SizedBox(height: hasTopNotch ? 10 : 0),
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(1),
+                              bottomLeft: Radius.circular(1),
+                            ),
+                            color: Color(0xFFFFFFFF).withOpacity(0.6),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: hasBottomNotch ? 10 : 0),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: 22,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(hasTopNotch ? 1 : 0),
+                      bottomLeft: Radius.circular(hasBottomNotch ? 1 : 0),
+                      topRight: Radius.circular(1),
+                      bottomRight: Radius.circular(1),
+                    ),
+                    color: Color(0xFFFFFFFF).withOpacity(0.6),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 1),
+        ],
+      ),
     );
   }
 }
