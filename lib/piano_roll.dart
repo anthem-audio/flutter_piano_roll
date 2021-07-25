@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_piano_roll/timeline.dart';
 
 import './piano_control.dart';
 
@@ -104,6 +105,20 @@ class _PianoRollContent extends HookWidget {
                       ),
                     ),
                     SizedBox(height: 1),
+                  ],
+                ),
+              ),
+              // Timeline and main paino roll render area
+              Expanded(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 22,
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(1, 1, 0, 0),
+                        child: Timeline(),
+                      ),
+                    )
                   ],
                 ),
               ),

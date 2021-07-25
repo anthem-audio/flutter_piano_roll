@@ -1,13 +1,23 @@
 import 'dart:ui';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_piano_roll/piano_roll.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_piano_roll/pattern.dart';
 
 void main() {
   runApp(
-    WidgetsApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => Pattern(),
+        ),
+      ],
+      child: WidgetsApp(
         color: Color.fromARGB(255, 7, 210, 212),
         title: "Piano Roll",
-        builder: (env, widget) => AppWrapper()),
+        builder: (env, widget) => AppWrapper(),
+      ),
+    ),
   );
 }
 
