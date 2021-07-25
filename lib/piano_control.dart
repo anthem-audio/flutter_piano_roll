@@ -90,7 +90,8 @@ class PianoControl extends HookWidget {
                 this.setKeyValueAtTop(startTopKeyValue.value - keyDelta);
               } else {
                 this.setKeyHeight(
-                    ((e.localPosition.dy - startPixelValue.value) / 3).clamp(4, 50));
+                    ((e.localPosition.dy - startPixelValue.value) / 3)
+                        .clamp(4, 50));
               }
             },
           ),
@@ -101,7 +102,8 @@ class PianoControl extends HookWidget {
             // clipBehavior: Clip.hardEdge,
             child: Stack(
               children: (() {
-                var keys = <Widget>[];
+                var whiteKeys = <Widget>[];
+                var blackKeys = <Widget>[];
                 double keyPosAccumulator = -(keyValueAtTop * keyHeight);
                 for (var i = 87; i >= 0; i--) {
                   if (getKeyType(i) == KeyType.WHITE) {
@@ -109,7 +111,7 @@ class PianoControl extends HookWidget {
                     var hasTopNotch = notchType == NotchType.ABOVE ||
                         notchType == NotchType.BOTH;
 
-                    keys.add(
+                    whiteKeys.add(
                       Positioned(
                         top: keyPosAccumulator -
                             (hasTopNotch ? keyHeight / 2 : 0),
@@ -122,7 +124,7 @@ class PianoControl extends HookWidget {
                       ),
                     );
                   } else {
-                    keys.add(
+                    blackKeys.add(
                       Positioned(
                         top: keyPosAccumulator,
                         left: 0,
@@ -137,7 +139,8 @@ class PianoControl extends HookWidget {
 
                   keyPosAccumulator += keyHeight;
                 }
-                return keys;
+
+                return whiteKeys + blackKeys;
               })(),
             ),
           ),
