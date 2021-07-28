@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_piano_roll/piano_roll_grid.dart';
 import 'package:flutter_piano_roll/timeline.dart';
 
 import './piano_control.dart';
@@ -42,25 +43,6 @@ class _PianoRollHeader extends StatelessWidget {
       height: 42,
     );
   }
-}
-
-double keyValueToPixels({
-  required double keyValue,
-  required double keyValueAtTop,
-  required double viewHeightInPixels,
-  required double keyHeight,
-}) {
-  final keyOffsetFromTop = keyValueAtTop - keyValue;
-  return keyOffsetFromTop * keyHeight;
-}
-
-double pixelsToKeyValue({
-  required double pixelOffsetFromTop,
-  required double keyValueAtTop,
-  required double keyHeight,
-}) {
-  final keyOffsetFromTop = pixelOffsetFromTop / keyHeight;
-  return keyValueAtTop - keyOffsetFromTop;
 }
 
 class _PianoRollContent extends HookWidget {
@@ -110,16 +92,23 @@ class _PianoRollContent extends HookWidget {
               ),
               // Timeline and main paino roll render area
               Expanded(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 22,
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(1, 1, 0, 0),
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(1, 1, 0, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      SizedBox(
+                        height: 21,
                         child: Timeline(),
                       ),
-                    )
-                  ],
+                      Expanded(
+                        child: PianoRollGrid(
+                          keyHeight: keyHeight.value,
+                          keyValueAtTop: keyValueAtTop.value,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

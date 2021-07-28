@@ -1,40 +1,12 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_piano_roll/helpers.dart';
 
 class DragInfo {
   double startX;
   double startY;
 
   DragInfo({required this.startX, required this.startY});
-}
-
-enum KeyType { BLACK, WHITE }
-enum NotchType { ABOVE, BELOW, BOTH }
-
-KeyType getKeyType(int key) {
-  switch (key % 12) {
-    case 1:
-    case 4:
-    case 6:
-    case 9:
-    case 11:
-      return KeyType.BLACK;
-    default:
-      return KeyType.WHITE;
-  }
-}
-
-NotchType getNotchType(int key) {
-  final keyTypeBelow = getKeyType(key - 1);
-  final keyTypeAbove = getKeyType(key + 1);
-
-  if (keyTypeAbove == KeyType.BLACK && keyTypeBelow == KeyType.WHITE) {
-    return NotchType.ABOVE;
-  } else if (keyTypeAbove == KeyType.WHITE && keyTypeBelow == KeyType.BLACK) {
-    return NotchType.BELOW;
-  }
-
-  return NotchType.BOTH;
 }
 
 typedef ValueSetter<T> = void Function(T value);
