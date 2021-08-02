@@ -9,7 +9,13 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => Pattern(),
+          create: (_) => Pattern()
+            ..changes = [
+              TimeSignatureChange(
+                offset: 96 * 4,
+                timeSignature: TimeSignature(5, 8),
+              ),
+            ],
         ),
       ],
       child: WidgetsApp(
