@@ -2,6 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_piano_roll/helpers.dart';
 
+import 'globals.dart';
+
 class DragInfo {
   double startX;
   double startY;
@@ -31,41 +33,31 @@ class PianoControl extends HookWidget {
     final startTopKeyValue = useRef(-1.0);
     final startKeyHeightValue = useRef(-1.0);
 
-    final isAltPressed = useRef(false);
-
     return Row(
       children: [
-        // This is hacky. Not sure where this should go in a proper app.
-        RawKeyboardListener(
-          focusNode: FocusNode(),
-          autofocus: true,
-          onKey: (e) {
-            isAltPressed.value = e.isAltPressed;
+        Listener(
+          onPointerDown: (e) {
+            startPixelValue.value = e.localPosition.dy;
+            startTopKeyValue.value = keyValueAtTop;
+            startKeyHeightValue.value = keyHeight;
           },
-          child: Listener(
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(1)),
-                color: Color(0xFFFFFFFF).withOpacity(0.12),
-              ),
-              width: 39,
+          onPointerMove: (e) {
+            if (!keyboardModifiers.alt) {
+              final keyDelta =
+                  (e.localPosition.dy - startPixelValue.value) / keyHeight;
+              this.setKeyValueAtTop(startTopKeyValue.value - keyDelta);
+            } else {
+              this.setKeyHeight(
+                  ((e.localPosition.dy - startPixelValue.value) / 3)
+                      .clamp(4, 50));
+            }
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(1)),
+              color: Color(0xFFFFFFFF).withOpacity(0.12),
             ),
-            onPointerDown: (e) {
-              startPixelValue.value = e.localPosition.dy;
-              startTopKeyValue.value = keyValueAtTop;
-              startKeyHeightValue.value = keyHeight;
-            },
-            onPointerMove: (e) {
-              if (!isAltPressed.value) {
-                final keyDelta =
-                    (e.localPosition.dy - startPixelValue.value) / keyHeight;
-                this.setKeyValueAtTop(startTopKeyValue.value - keyDelta);
-              } else {
-                this.setKeyHeight(
-                    ((e.localPosition.dy - startPixelValue.value) / 3)
-                        .clamp(4, 50));
-              }
-            },
+            width: 39,
           ),
         ),
         SizedBox(width: 1),

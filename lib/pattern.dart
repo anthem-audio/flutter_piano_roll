@@ -23,7 +23,7 @@ class Pattern with ChangeNotifier, DiagnosticableTreeMixin {
     notifyListeners();
   }
 
-  List<TimeSignatureChange> changes = [];
+  List<TimeSignatureChange> timeSignatureChanges = [];
 
   final int ticksPerBeat = 96;
 }

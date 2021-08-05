@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_piano_roll/pattern.dart';
 
 enum KeyType { BLACK, WHITE }
@@ -47,14 +48,34 @@ double pixelsToKeyValue({
   return keyValueAtTop - keyOffsetFromTop;
 }
 
-class TimeView {
-  TimeView({
-    required this.start,
-    required this.end,
-  });
+double timeToPixels({
+  required TimeView timeView,
+  required double viewPixelWidth,
+  required double time,
+}) {
+  return (time - timeView.start) /
+      (timeView.end - timeView.start) *
+      viewPixelWidth;
+}
 
-  double start;
-  double end;
+class TimeView with ChangeNotifier, DiagnosticableTreeMixin {
+  TimeView(this._start, this._end);
+
+  double get start => _start;
+  double get end => _end;
+
+  void setStart(double value) {
+    this._start = value;
+    notifyListeners();
+  }
+
+  void setEnd(double value) {
+    this._end = value;
+    notifyListeners();
+  }
+
+  double _start;
+  double _end;
 }
 
 class Division {
@@ -159,7 +180,7 @@ GetBestDivisionResult getBestDivision({
   required int ticksPerQuarter,
 }) {
   var barLength = getBarLength(ticksPerQuarter, timeSignature);
-  var divisionSizeLowerBound = ticksPerPixel * minPixelsPerDivision as int;
+  var divisionSizeLowerBound = ticksPerPixel * minPixelsPerDivision;
 
   // bestDivision starts at some small value and works up to the smallest valid
   // value
