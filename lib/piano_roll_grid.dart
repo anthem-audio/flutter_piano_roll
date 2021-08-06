@@ -115,7 +115,8 @@ class PianoRollBackgroundPainter extends CustomPainter {
     }
 
     // Draws everything since canvas.saveLayer() with the color provided in
-    // canvas.saveLayer(). This means that overlapping areas won't be darker.
+    // canvas.saveLayer(). This means that overlapping lines won't be darker,
+    // even though the whole thing is rendered with opacity.
     canvas.restore();
   }
 

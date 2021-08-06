@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
@@ -27,7 +29,7 @@ class Timeline extends HookWidget {
       },
       onPointerMove: (e) {
         if (!keyboardModifiers.alt) {
-          var viewWidth = _timelineKey.currentContext?.size?.width;
+          final viewWidth = _timelineKey.currentContext?.size?.width;
           if (viewWidth == null) return;
           print(viewWidth);
 
@@ -37,8 +39,11 @@ class Timeline extends HookWidget {
           timeView.setStart(startTimeViewStartValue.value - tickDelta);
           timeView.setEnd(startTimeViewEndValue.value - tickDelta);
         } else {
-          // this.setKeyHeight(
-          //     ((e.localPosition.dy - startPixelValue.value) / 3).clamp(4, 50));
+          final oldSize = startTimeViewEndValue.value - startTimeViewStartValue.value;
+          final newSize = oldSize * pow(2, 0.01 * (e.localPosition.dx - startPixelValue.value));
+          final delta = newSize - oldSize;
+          timeView.setStart(startTimeViewStartValue.value + delta * 0.5);
+          timeView.setEnd(startTimeViewEndValue.value - delta * 0.5);
         }
       },
       child: Container(

@@ -1,7 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_piano_roll/pattern.dart';
 import 'package:flutter_piano_roll/piano_roll_grid.dart';
 import 'package:flutter_piano_roll/timeline.dart';
+import 'package:provider/provider.dart';
 
 import './piano_control.dart';
 
@@ -48,10 +50,15 @@ class _PianoRollHeader extends StatelessWidget {
 class _PianoRollContent extends HookWidget {
   @override
   Widget build(BuildContext context) {
+    final pattern = context.watch<Pattern>();
+
     final footerHeight = useState<double>(61);
     final pianoControlWidth = useState<double>(103);
     final keyValueAtTop = useState<double>(64);
     final keyHeight = useState<double>(20);
+
+    final timelineHeight =
+        pattern.timeSignatureChanges.length > 0 ? 42.0 : 21.0;
 
     return Column(
       children: [
@@ -71,7 +78,7 @@ class _PianoRollContent extends HookWidget {
                           bottomRight: Radius.circular(1),
                         ),
                       ),
-                      height: 22,
+                      height: timelineHeight + 1,
                     ),
                     SizedBox(height: 1),
                     Expanded(
@@ -98,7 +105,7 @@ class _PianoRollContent extends HookWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       SizedBox(
-                        height: 21,
+                        height: timelineHeight,
                         child: Timeline(),
                       ),
                       Expanded(
