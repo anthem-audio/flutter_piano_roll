@@ -106,7 +106,9 @@ class _PianoRollContent extends HookWidget {
                     children: [
                       SizedBox(
                         height: timelineHeight,
-                        child: Timeline(),
+                        child: Timeline(
+                          pattern: pattern,
+                        ),
                       ),
                       Expanded(
                         child: PianoRollGrid(

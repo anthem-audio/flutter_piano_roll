@@ -49,12 +49,13 @@ double pixelsToKeyValue({
 }
 
 double timeToPixels({
-  required TimeView timeView,
+  required double timeViewStart,
+  required double timeViewEnd,
   required double viewPixelWidth,
   required double time,
 }) {
-  return (time - timeView.start) /
-      (timeView.end - timeView.start) *
+  return (time - timeViewStart) /
+      (timeViewEnd - timeViewStart) *
       viewPixelWidth;
 }
 
@@ -237,6 +238,7 @@ GetBestDivisionResult getBestDivision({
   );
 }
 
+// TODO: memoize / precalculate this?
 List<DivisionChange> getDivisionChanges({
   required double viewWidthInPixels,
   required double minPixelsPerSection,
@@ -244,7 +246,8 @@ List<DivisionChange> getDivisionChanges({
   required TimeSignature defaultTimeSignature,
   required List<TimeSignatureChange> timeSignatureChanges,
   required int ticksPerQuarter,
-  required TimeView timeView,
+  required double timeViewStart,
+  required double timeViewEnd,
 }) {
   if (viewWidthInPixels < 1) {
     return [];
@@ -269,7 +272,7 @@ List<DivisionChange> getDivisionChanges({
     var bestDivision = getBestDivision(
       minPixelsPerDivision: minPixelsPerSection,
       snap: snap,
-      ticksPerPixel: (timeView.end - timeView.start) / viewWidthInPixels,
+      ticksPerPixel: (timeViewEnd - timeViewStart) / viewWidthInPixels,
       ticksPerQuarter: ticksPerQuarter,
       timeSignature: change.timeSignature,
     );

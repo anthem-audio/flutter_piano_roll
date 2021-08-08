@@ -26,7 +26,8 @@ class PianoRollGrid extends StatelessWidget {
             keyHeight: keyHeight,
             keyValueAtTop: keyValueAtTop,
             pattern: pattern,
-            timeView: timeView,
+            timeViewStart: timeView.start,
+            timeViewEnd: timeView.end,
           ),
         ),
       ),
@@ -39,13 +40,15 @@ class PianoRollBackgroundPainter extends CustomPainter {
     required this.keyHeight,
     required this.keyValueAtTop,
     required this.pattern,
-    required this.timeView,
+    required this.timeViewStart,
+    required this.timeViewEnd,
   });
 
   final double keyHeight;
   final double keyValueAtTop;
   final Pattern pattern;
-  final TimeView timeView;
+  final double timeViewStart;
+  final double timeViewEnd;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -75,7 +78,8 @@ class PianoRollBackgroundPainter extends CustomPainter {
       defaultTimeSignature: pattern.baseTimeSignature,
       timeSignatureChanges: pattern.timeSignatureChanges,
       ticksPerQuarter: pattern.ticksPerBeat,
-      timeView: timeView,
+      timeViewStart: timeViewStart,
+      timeViewEnd: timeViewEnd,
     );
 
     var i = 0;
@@ -83,10 +87,10 @@ class PianoRollBackgroundPainter extends CustomPainter {
     // should always represent the base time signature for the pattern (or the
     // first time signature change, if its position is 0).
     var timePtr =
-        (timeView.start / divisionChanges[0].divisionRenderSize).floor() *
+        (timeViewStart / divisionChanges[0].divisionRenderSize).floor() *
             divisionChanges[0].divisionRenderSize;
 
-    while (timePtr < timeView.end) {
+    while (timePtr < timeViewEnd) {
       // This shouldn't happen, but safety first
       if (i >= divisionChanges.length) break;
 
@@ -102,9 +106,12 @@ class PianoRollBackgroundPainter extends CustomPainter {
         continue;
       }
 
-      while (timePtr < nextDivisionStart && timePtr < timeView.end) {
+      while (timePtr < nextDivisionStart && timePtr < timeViewEnd) {
         var x = timeToPixels(
-            timeView: timeView, viewPixelWidth: size.width, time: timePtr.toDouble());
+            timeViewStart: timeViewStart,
+            timeViewEnd: timeViewEnd,
+            viewPixelWidth: size.width,
+            time: timePtr.toDouble());
 
         canvas.drawRect(Rect.fromLTWH(x, 0, 1, size.height), color);
 
@@ -123,6 +130,8 @@ class PianoRollBackgroundPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant PianoRollBackgroundPainter oldDelegate) {
     return oldDelegate.keyHeight != this.keyHeight ||
-        oldDelegate.keyValueAtTop != this.keyValueAtTop;
+        oldDelegate.keyValueAtTop != this.keyValueAtTop ||
+        oldDelegate.timeViewStart != this.timeViewStart ||
+        oldDelegate.timeViewEnd != this.timeViewEnd;
   }
 }
