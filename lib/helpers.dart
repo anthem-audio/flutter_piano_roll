@@ -143,24 +143,26 @@ class GetBestDivisionResult {
   int skip;
 }
 
-// Adapted from https://github.com/wackywendell/primes
-int firstFactor(int x) {
-  if (x % 2 == 0) {
-    return 2;
-  }
+List<int> allPrimesUntil(int upper) {
+  // sieve[i] represents i * 2 + 3
+  List<bool> sieve = List.filled(((upper - 1) / 2).floor(), true);
+  for (var i = 3; i <= upper; i += 2) {
+    var sieveIndex = (i - 3) ~/ 2;
+    if (!sieve[sieveIndex]) continue;
 
-  // Odd numbers starting at 3
-  for (int i = 3; i * i <= x; i += 2) {
-    if (x % i == 0) {
-      return i;
+    for (var j = i * 3; j <= upper; j += i * 2) {
+      sieve[(j - 3) ~/ 2] = false;
     }
   }
-
-  // No factor found. It must be prime.
-  return x;
+  List<int> result = [2];
+  for (var i = 0; i < sieve.length; i++) {
+    if (!sieve[i]) continue;
+    result.add(i * 2 + 3);
+  }
+  return result;
 }
 
-// Adapted from https://github.com/wackywendell/primes
+// Part of this algorithm is adapted from https://github.com/wackywendell/primes
 List<int> factors(int x) {
   if (x <= 1) {
     return [];
@@ -168,9 +170,38 @@ List<int> factors(int x) {
 
   List<int> result = [];
   var curn = x;
-  while (true) {
-    // var m =
+
+  // hopefully quick upper-bound approximation of the number of primes we need
+  // probably not fast if x is big, but x shouldn't be big
+  var sqrt = 5;
+  var i = 2;
+  while (sqrt * sqrt < x) {
+    sqrt += i;
+    i += 2;
   }
+  sqrt += i;
+
+  var primes = allPrimesUntil(sqrt);
+  
+//   print("All primes up to and including ${sqrt}: ${primes}");
+
+  outer:
+  for (var p in primes) {
+    while (curn % p == 0) {
+      result.add(p);
+      curn ~/= p;
+      if (curn == 1) {
+        return result;
+      }
+
+      if (p * p > curn) {
+        break outer;
+      }
+    }
+  }
+
+  result.add(curn);
+  return result;
 }
 
 GetBestDivisionResult getBestDivision({

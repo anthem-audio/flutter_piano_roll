@@ -5,3 +5,5 @@ class KeyboardModifiers {
 }
 
 KeyboardModifiers keyboardModifiers = KeyboardModifiers();
+
+var ticksPerQuarter = 96;

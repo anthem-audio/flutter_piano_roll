@@ -50,18 +50,125 @@ class Timeline extends HookWidget {
           timeView.setEnd(startTimeViewEndValue.value + delta * 0.5);
         }
       },
-      child: Container(
-        color: Color(0xFFFFFFFF).withOpacity(0.12),
-        child: ClipRect(
-          child: CustomPaint(
-            painter: TimelinePainter(
-              timeViewStart: timeView.start,
-              timeViewEnd: timeView.end,
-              pattern: pattern,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Container(
+            color: Color(0xFFFFFFFF).withOpacity(0.12),
+            child: ClipRect(
+              child: CustomPaint(
+                painter: TimelinePainter(
+                  timeViewStart: timeView.start,
+                  timeViewEnd: timeView.end,
+                  pattern: pattern,
+                ),
+              ),
             ),
           ),
-        ),
+          CustomMultiChildLayout(
+            children: pattern.timeSignatureChanges
+                .map(
+                  (change) => LayoutId(
+                    id: change.offset,
+                    child: TimelineLabel(
+                        text:
+                            "${change.timeSignature.numerator}/${change.timeSignature.denominator}"),
+                  ),
+                )
+                .toList(),
+            delegate: TimeSignatureLabelLayoutDelegate(
+              timeSignatureChanges: pattern.timeSignatureChanges,
+              timeViewStart: timeView.start,
+              timeViewEnd: timeView.end,
+              // viewPixelWidth:
+            ),
+          ),
+        ],
       ),
+    );
+  }
+}
+
+class TimeSignatureLabelLayoutDelegate extends MultiChildLayoutDelegate {
+  TimeSignatureLabelLayoutDelegate({
+    required this.timeSignatureChanges,
+    required this.timeViewStart,
+    required this.timeViewEnd,
+    // required this.viewPixelWidth,
+  });
+
+  List<TimeSignatureChange> timeSignatureChanges;
+  double timeViewStart;
+  double timeViewEnd;
+  // double viewPixelWidth;
+
+  @override
+  void performLayout(Size size) {
+    // layoutChild(
+    //   1,
+    // BoxConstraints(
+    //   maxWidth: size.width,
+    //   maxHeight: size.height,
+    // ),
+    // );
+    // positionChild(1, Offset(5, 21));
+    for (var change in timeSignatureChanges) {
+      layoutChild(
+        change.offset,
+        BoxConstraints(
+          maxWidth: size.width,
+          maxHeight: size.height,
+        ),
+      );
+
+      var x = timeToPixels(
+        timeViewStart: timeViewStart,
+        timeViewEnd: timeViewEnd,
+        viewPixelWidth: size.width,
+        time: change.offset.toDouble(),
+      );
+
+      positionChild(change.offset, Offset(x, 21));
+    }
+  }
+
+  @override
+  bool shouldRelayout(TimeSignatureLabelLayoutDelegate oldDelegate) {
+    // This compares two lists. I have no idea if that makes sense in flutter
+    // but we may get a stale layout doing that.
+    return oldDelegate.timeViewStart != timeViewStart ||
+        oldDelegate.timeViewEnd != timeViewEnd ||
+        oldDelegate.timeSignatureChanges != timeSignatureChanges;
+  }
+}
+
+class TimelineLabel extends HookWidget {
+  const TimelineLabel({Key? key, required this.text}) : super(key: key);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          color: Color(0xFFFFFFFF).withOpacity(0.6),
+          width: 2,
+          height: 21,
+        ),
+        Container(
+          decoration: BoxDecoration(
+            color: Color(0xFFFFFFFF).withOpacity(0.08),
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(3),
+            ),
+          ),
+          child: Text(text),
+          padding: EdgeInsets.only(left: 4, right: 4),
+          height: 21,
+        ),
+      ],
     );
   }
 }
@@ -80,7 +187,7 @@ class TimelinePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     var divisionChanges = getDivisionChanges(
       viewWidthInPixels: size.width,
-      minPixelsPerSection: 5,
+      minPixelsPerSection: 32,
       snap: BarSnap(),
       defaultTimeSignature: pattern.baseTimeSignature,
       timeSignatureChanges: pattern.timeSignatureChanges,
