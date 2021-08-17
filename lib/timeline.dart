@@ -50,40 +50,42 @@ class Timeline extends HookWidget {
           timeView.setEnd(startTimeViewEndValue.value + delta * 0.5);
         }
       },
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          Container(
-            color: Color(0xFFFFFFFF).withOpacity(0.12),
-            child: ClipRect(
-              child: CustomPaint(
-                painter: TimelinePainter(
-                  timeViewStart: timeView.start,
-                  timeViewEnd: timeView.end,
-                  pattern: pattern,
+      child: ClipRect(
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Container(
+              color: Color(0xFFFFFFFF).withOpacity(0.12),
+              child: ClipRect(
+                child: CustomPaint(
+                  painter: TimelinePainter(
+                    timeViewStart: timeView.start,
+                    timeViewEnd: timeView.end,
+                    pattern: pattern,
+                  ),
                 ),
               ),
             ),
-          ),
-          CustomMultiChildLayout(
-            children: pattern.timeSignatureChanges
-                .map(
-                  (change) => LayoutId(
-                    id: change.offset,
-                    child: TimelineLabel(
-                        text:
-                            "${change.timeSignature.numerator}/${change.timeSignature.denominator}"),
-                  ),
-                )
-                .toList(),
-            delegate: TimeSignatureLabelLayoutDelegate(
-              timeSignatureChanges: pattern.timeSignatureChanges,
-              timeViewStart: timeView.start,
-              timeViewEnd: timeView.end,
-              // viewPixelWidth:
+            CustomMultiChildLayout(
+              children: pattern.timeSignatureChanges
+                  .map(
+                    (change) => LayoutId(
+                      id: change.offset,
+                      child: TimelineLabel(
+                          text:
+                              "${change.timeSignature.numerator}/${change.timeSignature.denominator}"),
+                    ),
+                  )
+                  .toList(),
+              delegate: TimeSignatureLabelLayoutDelegate(
+                timeSignatureChanges: pattern.timeSignatureChanges,
+                timeViewStart: timeView.start,
+                timeViewEnd: timeView.end,
+                // viewPixelWidth:
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -104,14 +106,6 @@ class TimeSignatureLabelLayoutDelegate extends MultiChildLayoutDelegate {
 
   @override
   void performLayout(Size size) {
-    // layoutChild(
-    //   1,
-    // BoxConstraints(
-    //   maxWidth: size.width,
-    //   maxHeight: size.height,
-    // ),
-    // );
-    // positionChild(1, Offset(5, 21));
     for (var change in timeSignatureChanges) {
       layoutChild(
         change.offset,

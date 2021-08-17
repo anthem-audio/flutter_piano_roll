@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_piano_roll/helpers.dart';
 import 'package:flutter_piano_roll/pattern.dart';
 import 'package:flutter_piano_roll/piano_roll_grid.dart';
 import 'package:flutter_piano_roll/timeline.dart';
@@ -51,6 +52,7 @@ class _PianoRollContent extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final pattern = context.watch<Pattern>();
+    final timeView = context.watch<TimeView>();
 
     final footerHeight = useState<double>(61);
     final pianoControlWidth = useState<double>(103);
@@ -111,9 +113,33 @@ class _PianoRollContent extends HookWidget {
                         ),
                       ),
                       Expanded(
-                        child: PianoRollGrid(
-                          keyHeight: keyHeight.value,
-                          keyValueAtTop: keyValueAtTop.value,
+                        child: Stack(
+                          fit: StackFit.expand,
+                          children: [
+                            PianoRollGrid(
+                              keyHeight: keyHeight.value,
+                              keyValueAtTop: keyValueAtTop.value,
+                            ),
+                            ClipRect(
+                              child: CustomMultiChildLayout(
+                                children: pattern.notes
+                                    .map(
+                                      (note) => LayoutId(
+                                        id: note.id,
+                                        child: NoteWidget(),
+                                      ),
+                                    )
+                                    .toList(),
+                                delegate: NoteLayoutDelegate(
+                                  notes: pattern.notes,
+                                  keyHeight: keyHeight.value,
+                                  keyValueAtTop: keyValueAtTop.value,
+                                  timeViewStart: timeView.start,
+                                  timeViewEnd: timeView.end,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -128,6 +154,95 @@ class _PianoRollContent extends HookWidget {
           height: footerHeight.value,
         ),
       ],
+    );
+  }
+}
+
+class NoteLayoutDelegate extends MultiChildLayoutDelegate {
+  NoteLayoutDelegate({
+    required this.notes,
+    required this.keyHeight,
+    required this.keyValueAtTop,
+    required this.timeViewStart,
+    required this.timeViewEnd,
+  });
+
+  final List<Note> notes;
+  final double timeViewStart;
+  final double timeViewEnd;
+  final double keyValueAtTop;
+  final double keyHeight;
+
+  @override
+  void performLayout(Size size) {
+    for (var note in notes) {
+      // layoutChild(
+      //   1,
+      // BoxConstraints(
+      //   maxWidth: size.width,
+      //   maxHeight: size.height,
+      // ),
+      // );
+      // positionChild(1, Offset(5, 21));
+
+      final y = keyValueToPixels(
+              keyValue: note.key.toDouble(),
+              keyValueAtTop: keyValueAtTop,
+              keyHeight: keyHeight) +
+          // this is why I want Dart support for Prettier
+          1;
+      final height = keyHeight.toDouble() - 1;
+      final startX = timeToPixels(
+              timeViewStart: timeViewStart,
+              timeViewEnd: timeViewEnd,
+              viewPixelWidth: size.width,
+              time: note.offset.toDouble()) +
+          1;
+      final width = timeToPixels(
+              timeViewStart: timeViewStart,
+              timeViewEnd: timeViewEnd,
+              viewPixelWidth: size.width,
+              time: timeViewStart + note.length.toDouble()) -
+          1;
+
+      layoutChild(
+        note.id,
+        BoxConstraints(maxHeight: height, maxWidth: width),
+      );
+      positionChild(note.id, Offset(startX, y));
+    }
+  }
+
+  @override
+  bool shouldRelayout(covariant NoteLayoutDelegate oldDelegate) {
+    if (oldDelegate.timeViewStart != timeViewStart ||
+        oldDelegate.timeViewEnd != timeViewEnd ||
+        oldDelegate.notes.length != notes.length ||
+        oldDelegate.keyHeight != keyHeight ||
+        oldDelegate.keyValueAtTop != keyValueAtTop) return true;
+    for (var i = 0; i < notes.length; i++) {
+      var oldNote = oldDelegate.notes[i];
+      var newNote = notes[i];
+
+      // No re-layout on velocity. I think this is okay?
+      if (oldNote.key != newNote.key ||
+          oldNote.length != newNote.length ||
+          oldNote.offset != newNote.offset) {
+        return true;
+      }
+    }
+    return false;
+  }
+}
+
+class NoteWidget extends HookWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Color(0xFF07D2D4).withOpacity(0.33),
+        borderRadius: BorderRadius.all(Radius.circular(1)),
+      ),
     );
   }
 }

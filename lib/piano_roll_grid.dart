@@ -62,7 +62,7 @@ class PianoRollBackgroundPainter extends CustomPainter {
 
     // Horizontal lines
 
-    var linePointer = keyHeight - ((keyValueAtTop * keyHeight) % keyHeight);
+    var linePointer = ((keyValueAtTop * keyHeight) % keyHeight);
 
     while (linePointer < size.height) {
       canvas.drawRect(Rect.fromLTWH(0, linePointer, size.width, 1), black);

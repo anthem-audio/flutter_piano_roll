@@ -13,6 +13,8 @@ class DragInfo {
 
 typedef ValueSetter<T> = void Function(T value);
 
+// TODO: rewrite with custom layout
+
 class PianoControl extends HookWidget {
   const PianoControl({
     Key? key,
@@ -45,7 +47,7 @@ class PianoControl extends HookWidget {
             if (!keyboardModifiers.alt) {
               final keyDelta =
                   (e.localPosition.dy - startPixelValue.value) / keyHeight;
-              this.setKeyValueAtTop(startTopKeyValue.value - keyDelta);
+              this.setKeyValueAtTop(startTopKeyValue.value + keyDelta);
             } else {
               this.setKeyHeight(
                   ((e.localPosition.dy - startPixelValue.value) / 3)
@@ -63,13 +65,15 @@ class PianoControl extends HookWidget {
         SizedBox(width: 1),
         Expanded(
           child: Container(
-            // clipBehavior: Clip.hardEdge,
             child: Stack(
               children: (() {
                 var whiteKeys = <Widget>[];
                 var blackKeys = <Widget>[];
-                double keyPosAccumulator = -(keyValueAtTop * keyHeight);
-                for (var i = 87; i >= 0; i--) {
+                double keyPosAccumulator = keyValueToPixels(
+                    keyValue: 0,
+                    keyValueAtTop: keyValueAtTop,
+                    keyHeight: keyHeight);
+                for (var i = 0; i <= 87; i++) {
                   if (getKeyType(i) == KeyType.WHITE) {
                     var notchType = getNotchType(i);
                     var hasTopNotch = notchType == NotchType.ABOVE ||
@@ -101,7 +105,7 @@ class PianoControl extends HookWidget {
                     );
                   }
 
-                  keyPosAccumulator += keyHeight;
+                  keyPosAccumulator -= keyHeight;
                 }
 
                 return whiteKeys + blackKeys;
@@ -133,7 +137,7 @@ class _WhiteKey extends HookWidget {
 
     // 41 / 22
 
-    return SizedBox(
+    return GestureDetector(onTap: (){print(keyNumber);}, child:SizedBox(
       height: widgetHeight - 1,
       child: Row(
         children: [
@@ -169,7 +173,7 @@ class _WhiteKey extends HookWidget {
             ),
           ),
         ],
-      ),
+      ),)
     );
   }
 }
