@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_piano_roll/helpers.dart';
@@ -126,7 +127,7 @@ class _PianoRollContent extends HookWidget {
                                     .map(
                                       (note) => LayoutId(
                                         id: note.id,
-                                        child: NoteWidget(),
+                                        child: NoteWidget(noteID: note.id),
                                       ),
                                     )
                                     .toList(),
@@ -236,13 +237,58 @@ class NoteLayoutDelegate extends MultiChildLayoutDelegate {
 }
 
 class NoteWidget extends HookWidget {
+  NoteWidget({Key? key, required this.noteID}) : super(key: key);
+
+  final int noteID;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Color(0xFF07D2D4).withOpacity(0.33),
-        borderRadius: BorderRadius.all(Radius.circular(1)),
+    final isHovered = useState(false);
+
+    return Listener(
+      // TODO: Send off notification on focus loss (?) or people will be very confused maybe
+      onPointerDown: (e) {
+        NotePointerNotification(
+          isRightClick: e.buttons == kSecondaryMouseButton,
+          pressed: true,
+          noteID: 1,
+        ).dispatch(context);
+      },
+      onPointerUp: (e) {
+        NotePointerNotification(
+          isRightClick: e.buttons == kSecondaryMouseButton,
+          pressed: false,
+          noteID: 1,
+        ).dispatch(context);
+      },
+      child: MouseRegion(
+        onEnter: (e) {
+          isHovered.value = true;
+        },
+        onExit: (e) {
+          isHovered.value = false;
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: Color(0xFF07D2D4).withOpacity(isHovered.value ? 0.5 : 0.33),
+            borderRadius: BorderRadius.all(Radius.circular(1)),
+          ),
+        ),
       ),
     );
   }
+}
+
+// Notifications that describe pointer events on notes. How they are handled
+// will depend on the current state of the piano roll controller.
+class NotePointerNotification extends Notification {
+  NotePointerNotification({
+    required this.noteID,
+    required this.pressed,
+    required this.isRightClick,
+  });
+
+  final int noteID;
+  final bool pressed;
+  final bool isRightClick;
 }

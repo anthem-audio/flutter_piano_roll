@@ -51,7 +51,22 @@ class Pattern with ChangeNotifier, DiagnosticableTreeMixin {
     Note(id: getID(), key: 66, offset: 96, length: 96, velocity: 200),
     Note(id: getID(), key: 68, offset: 96 * 2, length: 96, velocity: 200),
     Note(id: getID(), key: 71, offset: 96 * 3, length: 96, velocity: 200),
+
+    Note(id: getID(), key: 64 + 1, offset: 0, length: 96 * 3 ~/ 4, velocity: 200),
+    Note(id: getID(), key: 66 + 2, offset: 96, length: 96 * 3 ~/ 4, velocity: 200),
+    Note(id: getID(), key: 68 + 1, offset: 96 * 2, length: 96 * 3 ~/ 4, velocity: 200),
+    Note(id: getID(), key: 71 + 2, offset: 96 * 3, length: 96 * 3 ~/ 4, velocity: 200),
+
+    Note(id: getID(), key: 64 + 3, offset: 0, length: 96 ~/ 2, velocity: 200),
+    Note(id: getID(), key: 66 + 4, offset: 96, length: 96 ~/ 2, velocity: 200),
+    Note(id: getID(), key: 68 + 3, offset: 96 * 2, length: 96 ~/ 2, velocity: 200),
+    Note(id: getID(), key: 71 + 4, offset: 96 * 3, length: 96 ~/ 2, velocity: 200),
   ];
+
+  void mutateNotes(void Function(List<Note> notes) mutator) {
+    mutator(this.notes);
+    notifyListeners();
+  }
 
   final int ticksPerBeat = 96;
 }

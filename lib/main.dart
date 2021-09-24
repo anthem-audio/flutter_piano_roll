@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_piano_roll/helpers.dart';
 import 'package:flutter_piano_roll/piano_roll.dart';
+import 'package:flutter_piano_roll/piano_roll_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_piano_roll/pattern.dart';
 
@@ -52,9 +53,12 @@ class AppWrapper extends HookWidget {
 
         print(e.logicalKey.keyLabel);
 
-        var ctrl = e.logicalKey.keyLabel == "Control Left" || e.logicalKey.keyLabel == "Control Right";
-        var alt = e.logicalKey.keyLabel == "Alt Left" || e.logicalKey.keyLabel == "Alt Right";
-        var shift = e.logicalKey.keyLabel == "Shift Left" || e.logicalKey.keyLabel == "Shift Right";
+        var ctrl = e.logicalKey.keyLabel == "Control Left" ||
+            e.logicalKey.keyLabel == "Control Right";
+        var alt = e.logicalKey.keyLabel == "Alt Left" ||
+            e.logicalKey.keyLabel == "Alt Right";
+        var shift = e.logicalKey.keyLabel == "Shift Left" ||
+            e.logicalKey.keyLabel == "Shift Right";
 
         if (ctrl && keyDown) keyboardModifiers.ctrl = true;
         if (ctrl && keyUp) keyboardModifiers.ctrl = false;
@@ -74,7 +78,7 @@ class AppWrapper extends HookWidget {
           Container(
             color: Color.fromARGB(77, 0, 0, 0),
           ),
-          PianoRoll(),
+          PianoRollController(child: PianoRoll()),
         ],
       ),
     );

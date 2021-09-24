@@ -49,9 +49,9 @@ class PianoControl extends HookWidget {
                   (e.localPosition.dy - startPixelValue.value) / keyHeight;
               this.setKeyValueAtTop(startTopKeyValue.value + keyDelta);
             } else {
-              this.setKeyHeight(
-                  ((e.localPosition.dy - startPixelValue.value) / 3)
-                      .clamp(4, 50));
+              this.setKeyHeight((startKeyHeightValue.value +
+                      (e.localPosition.dy - startPixelValue.value) / 3)
+                  .clamp(4, 50));
             }
           },
           child: Container(
@@ -137,44 +137,48 @@ class _WhiteKey extends HookWidget {
 
     // 41 / 22
 
-    return GestureDetector(onTap: (){print(keyNumber);}, child:SizedBox(
-      height: widgetHeight - 1,
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              children: [
-                SizedBox(height: hasTopNotch ? keyHeight * 0.5 : 0),
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(1),
-                        bottomLeft: Radius.circular(1),
+    return GestureDetector(
+        onTap: () {
+          print(keyNumber);
+        },
+        child: SizedBox(
+          height: widgetHeight - 1,
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  children: [
+                    SizedBox(height: hasTopNotch ? keyHeight * 0.5 : 0),
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(1),
+                            bottomLeft: Radius.circular(1),
+                          ),
+                          color: Color(0xFFFFFFFF).withOpacity(0.6),
+                        ),
                       ),
-                      color: Color(0xFFFFFFFF).withOpacity(0.6),
                     ),
-                  ),
+                    SizedBox(height: hasBottomNotch ? keyHeight * 0.5 : 0),
+                  ],
                 ),
-                SizedBox(height: hasBottomNotch ? keyHeight * 0.5 : 0),
-              ],
-            ),
-          ),
-          Container(
-            width: 22,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(hasTopNotch ? 1 : 0),
-                bottomLeft: Radius.circular(hasBottomNotch ? 1 : 0),
-                topRight: Radius.circular(1),
-                bottomRight: Radius.circular(1),
               ),
-              color: Color(0xFFFFFFFF).withOpacity(0.6),
-            ),
+              Container(
+                width: 22,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(hasTopNotch ? 1 : 0),
+                    bottomLeft: Radius.circular(hasBottomNotch ? 1 : 0),
+                    topRight: Radius.circular(1),
+                    bottomRight: Radius.circular(1),
+                  ),
+                  color: Color(0xFFFFFFFF).withOpacity(0.6),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),)
-    );
+        ));
   }
 }
 
