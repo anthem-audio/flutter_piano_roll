@@ -25,9 +25,9 @@ void main() {
         ChangeNotifierProvider(create: (_) => TimeView(0, 3072)),
       ],
       child: WidgetsApp(
-        color: Color.fromARGB(255, 7, 210, 212),
+        color: const Color.fromARGB(255, 7, 210, 212),
         title: "Piano Roll",
-        builder: (env, widget) => AppWrapper(),
+        builder: (env, widget) => const AppWrapper(),
       ),
     ),
   );
@@ -76,9 +76,9 @@ class AppWrapper extends HookWidget {
                 fit: BoxFit.cover),
           ),
           Container(
-            color: Color.fromARGB(77, 0, 0, 0),
+            color: const Color.fromARGB(77, 0, 0, 0),
           ),
-          PianoRollController(child: PianoRoll()),
+          const PianoRollController(child: PianoRoll()),
         ],
       ),
     );

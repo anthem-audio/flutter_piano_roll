@@ -53,11 +53,11 @@ class PianoRollBackgroundPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     var black = Paint();
-    black.color = Color(0xFF000000);
+    black.color = const Color(0xFF000000);
 
     canvas.saveLayer(
       Rect.fromLTWH(0, 0, size.width, size.height),
-      Paint()..color = Color(0xFF000000).withOpacity(0.2),
+      Paint()..color = const Color(0xFF000000).withOpacity(0.2),
     );
 
     // Horizontal lines
@@ -107,7 +107,8 @@ class PianoRollBackgroundPainter extends CustomPainter {
       timeViewEnd: timeViewEnd,
     );
 
-    var majorVerticalLinePaint = Paint()..color = Color(0xFF000000).withOpacity(0.22);
+    var majorVerticalLinePaint = Paint()
+      ..color = const Color(0xFF000000).withOpacity(0.22);
 
     paintVerticalLines(
       canvas: canvas,

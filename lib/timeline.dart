@@ -55,7 +55,7 @@ class Timeline extends HookWidget {
           fit: StackFit.expand,
           children: [
             Container(
-              color: Color(0xFFFFFFFF).withOpacity(0.12),
+              color: const Color(0xFFFFFFFF).withOpacity(0.12),
               child: ClipRect(
                 child: CustomPaint(
                   painter: TimelinePainter(
@@ -147,19 +147,19 @@ class TimelineLabel extends HookWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          color: Color(0xFFFFFFFF).withOpacity(0.6),
+          color: const Color(0xFFFFFFFF).withOpacity(0.6),
           width: 2,
           height: 21,
         ),
         Container(
           decoration: BoxDecoration(
-            color: Color(0xFFFFFFFF).withOpacity(0.08),
-            borderRadius: BorderRadius.only(
+            color: const Color(0xFFFFFFFF).withOpacity(0.08),
+            borderRadius: const BorderRadius.only(
               topRight: Radius.circular(3),
             ),
           ),
           child: Text(text),
-          padding: EdgeInsets.only(left: 4, right: 4),
+          padding: const EdgeInsets.only(left: 4, right: 4),
           height: 21,
         ),
       ],
@@ -228,7 +228,7 @@ class TimelinePainter extends CustomPainter {
             time: timePtr.toDouble());
 
         TextSpan span = TextSpan(
-            style: TextStyle(color: Color(0xFFFFFFFF).withOpacity(0.6)),
+            style: TextStyle(color: const Color(0xFFFFFFFF).withOpacity(0.6)),
             text: barNumber.toString());
         TextPainter textPainter = TextPainter(
             text: span,

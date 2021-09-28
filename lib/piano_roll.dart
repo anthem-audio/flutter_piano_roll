@@ -21,7 +21,7 @@ class _PianoRollState extends State<PianoRoll> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(3),
+      padding: const EdgeInsets.all(3),
       child: Column(
         children: [
           _PianoRollHeader(),
@@ -39,8 +39,8 @@ class _PianoRollHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Color(0xFFFFFFFF).withOpacity(0.12),
-        borderRadius: BorderRadius.only(
+        color: const Color(0xFFFFFFFF).withOpacity(0.12),
+        borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(2),
           topRight: Radius.circular(2),
         ),
@@ -76,15 +76,15 @@ class _PianoRollContent extends HookWidget {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        color: Color(0xFFFFFFFF).withOpacity(0.12),
-                        borderRadius: BorderRadius.only(
+                        color: const Color(0xFFFFFFFF).withOpacity(0.12),
+                        borderRadius: const BorderRadius.only(
                           bottomLeft: Radius.circular(1),
                           bottomRight: Radius.circular(1),
                         ),
                       ),
                       height: timelineHeight + 1,
                     ),
-                    SizedBox(height: 1),
+                    const SizedBox(height: 1),
                     Expanded(
                       child: PianoControl(
                         keyValueAtTop: keyValueAtTop.value,
@@ -97,14 +97,14 @@ class _PianoRollContent extends HookWidget {
                         },
                       ),
                     ),
-                    SizedBox(height: 1),
+                    const SizedBox(height: 1),
                   ],
                 ),
               ),
               // Timeline and main piano roll render area
               Expanded(
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(1, 1, 0, 0),
+                  padding: const EdgeInsets.fromLTRB(1, 1, 0, 0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -152,7 +152,7 @@ class _PianoRollContent extends HookWidget {
           ),
         ),
         Container(
-          color: Color(0xFFFFFFFF).withOpacity(0.12),
+          color: const Color(0xFFFFFFFF).withOpacity(0.12),
           height: footerHeight.value,
         ),
       ],
@@ -272,8 +272,9 @@ class NoteWidget extends HookWidget {
         },
         child: Container(
           decoration: BoxDecoration(
-            color: Color(0xFF07D2D4).withOpacity(isHovered.value ? 0.5 : 0.33),
-            borderRadius: BorderRadius.all(Radius.circular(1)),
+            color: const Color(0xFF07D2D4)
+                .withOpacity(isHovered.value ? 0.5 : 0.33),
+            borderRadius: const BorderRadius.all(Radius.circular(1)),
           ),
         ),
       ),

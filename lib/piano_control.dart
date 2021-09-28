@@ -56,13 +56,13 @@ class PianoControl extends HookWidget {
           },
           child: Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(1)),
-              color: Color(0xFFFFFFFF).withOpacity(0.12),
+              borderRadius: const BorderRadius.all(Radius.circular(1)),
+              color: const Color(0xFFFFFFFF).withOpacity(0.12),
             ),
             width: 39,
           ),
         ),
-        SizedBox(width: 1),
+        const SizedBox(width: 1),
         Expanded(
           child: Container(
             child: Stack(
@@ -152,11 +152,11 @@ class _WhiteKey extends HookWidget {
                     Expanded(
                       child: Container(
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(1),
                             bottomLeft: Radius.circular(1),
                           ),
-                          color: Color(0xFFFFFFFF).withOpacity(0.6),
+                          color: const Color(0xFFFFFFFF).withOpacity(0.6),
                         ),
                       ),
                     ),
@@ -170,10 +170,10 @@ class _WhiteKey extends HookWidget {
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(hasTopNotch ? 1 : 0),
                     bottomLeft: Radius.circular(hasBottomNotch ? 1 : 0),
-                    topRight: Radius.circular(1),
-                    bottomRight: Radius.circular(1),
+                    topRight: const Radius.circular(1),
+                    bottomRight: const Radius.circular(1),
                   ),
-                  color: Color(0xFFFFFFFF).withOpacity(0.6),
+                  color: const Color(0xFFFFFFFF).withOpacity(0.6),
                 ),
               ),
             ],
@@ -193,8 +193,8 @@ class _BlackKey extends HookWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(1)),
-        color: Color(0xFFFFFFFF).withOpacity(0.07),
+        borderRadius: const BorderRadius.all(Radius.circular(1)),
+        color: const Color(0xFFFFFFFF).withOpacity(0.07),
       ),
       height: keyHeight - 1,
     );
