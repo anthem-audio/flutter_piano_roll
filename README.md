@@ -4,13 +4,13 @@ A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+To get started with Flutter, follow the [installation instructions in the docs](https://flutter.dev/docs/get-started/install).
 
-A few resources to get you started if this is your first Flutter project:
+We suggest you use Visual Studio Code to work on this project. When you open this project in Visual Studio Code, it will prompt you to install the Dart extension for VS Code.
+
+You should follow the "Get started" instructions in the Flutter docs. They will walk you through setting up your editor and running the app for the first time.
+
+## Useful Links
 
 - [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
