@@ -18,17 +18,15 @@ class PianoRollGrid extends StatelessWidget {
     var pattern = context.watch<Pattern>();
     var timeView = context.watch<TimeView>();
 
-    return Container(
-      child: ClipRect(
-        // child: Container(color: Color(0xFF00FF00)),
-        child: CustomPaint(
-          painter: PianoRollBackgroundPainter(
-            keyHeight: keyHeight,
-            keyValueAtTop: keyValueAtTop,
-            pattern: pattern,
-            timeViewStart: timeView.start,
-            timeViewEnd: timeView.end,
-          ),
+    return ClipRect(
+      // child: Container(color: Color(0xFF00FF00)),
+      child: CustomPaint(
+        painter: PianoRollBackgroundPainter(
+          keyHeight: keyHeight,
+          keyValueAtTop: keyValueAtTop,
+          pattern: pattern,
+          timeViewStart: timeView.start,
+          timeViewEnd: timeView.end,
         ),
       ),
     );

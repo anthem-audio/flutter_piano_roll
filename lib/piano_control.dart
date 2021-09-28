@@ -64,53 +64,51 @@ class PianoControl extends HookWidget {
         ),
         const SizedBox(width: 1),
         Expanded(
-          child: Container(
-            child: Stack(
-              children: (() {
-                var whiteKeys = <Widget>[];
-                var blackKeys = <Widget>[];
-                double keyPosAccumulator = keyValueToPixels(
-                    keyValue: 0,
-                    keyValueAtTop: keyValueAtTop,
-                    keyHeight: keyHeight);
-                for (var i = 0; i <= 87; i++) {
-                  if (getKeyType(i) == KeyType.white) {
-                    var notchType = getNotchType(i);
-                    var hasTopNotch = notchType == NotchType.above ||
-                        notchType == NotchType.both;
+          child: Stack(
+            children: (() {
+              var whiteKeys = <Widget>[];
+              var blackKeys = <Widget>[];
+              double keyPosAccumulator = keyValueToPixels(
+                  keyValue: 0,
+                  keyValueAtTop: keyValueAtTop,
+                  keyHeight: keyHeight);
+              for (var i = 0; i <= 87; i++) {
+                if (getKeyType(i) == KeyType.white) {
+                  var notchType = getNotchType(i);
+                  var hasTopNotch = notchType == NotchType.above ||
+                      notchType == NotchType.both;
 
-                    whiteKeys.add(
-                      Positioned(
-                        top: keyPosAccumulator -
-                            (hasTopNotch ? keyHeight / 2 : 0),
-                        left: 0,
-                        right: 0,
-                        child: _WhiteKey(
-                          keyNumber: i,
-                          keyHeight: keyHeight,
-                        ),
+                  whiteKeys.add(
+                    Positioned(
+                      top:
+                          keyPosAccumulator - (hasTopNotch ? keyHeight / 2 : 0),
+                      left: 0,
+                      right: 0,
+                      child: _WhiteKey(
+                        keyNumber: i,
+                        keyHeight: keyHeight,
                       ),
-                    );
-                  } else {
-                    blackKeys.add(
-                      Positioned(
-                        top: keyPosAccumulator,
-                        left: 0,
-                        right: 23,
-                        child: _BlackKey(
-                          keyNumber: i,
-                          keyHeight: keyHeight,
-                        ),
+                    ),
+                  );
+                } else {
+                  blackKeys.add(
+                    Positioned(
+                      top: keyPosAccumulator,
+                      left: 0,
+                      right: 23,
+                      child: _BlackKey(
+                        keyNumber: i,
+                        keyHeight: keyHeight,
                       ),
-                    );
-                  }
-
-                  keyPosAccumulator -= keyHeight;
+                    ),
+                  );
                 }
 
-                return whiteKeys + blackKeys;
-              })(),
-            ),
+                keyPosAccumulator -= keyHeight;
+              }
+
+              return whiteKeys + blackKeys;
+            })(),
           ),
         ),
       ],
