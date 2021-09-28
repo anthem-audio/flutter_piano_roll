@@ -74,10 +74,10 @@ class PianoControl extends HookWidget {
                     keyValueAtTop: keyValueAtTop,
                     keyHeight: keyHeight);
                 for (var i = 0; i <= 87; i++) {
-                  if (getKeyType(i) == KeyType.WHITE) {
+                  if (getKeyType(i) == KeyType.white) {
                     var notchType = getNotchType(i);
-                    var hasTopNotch = notchType == NotchType.ABOVE ||
-                        notchType == NotchType.BOTH;
+                    var hasTopNotch = notchType == NotchType.above ||
+                        notchType == NotchType.both;
 
                     whiteKeys.add(
                       Positioned(
@@ -129,11 +129,11 @@ class _WhiteKey extends HookWidget {
   Widget build(BuildContext context) {
     var notchType = getNotchType(keyNumber);
     double widgetHeight =
-        notchType == NotchType.BOTH ? keyHeight * 2 : keyHeight * 1.5;
+        notchType == NotchType.both ? keyHeight * 2 : keyHeight * 1.5;
     var hasTopNotch =
-        notchType == NotchType.BOTH || notchType == NotchType.ABOVE;
+        notchType == NotchType.both || notchType == NotchType.above;
     var hasBottomNotch =
-        notchType == NotchType.BOTH || notchType == NotchType.BELOW;
+        notchType == NotchType.both || notchType == NotchType.below;
 
     // 41 / 22
 

@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_piano_roll/pattern.dart';
 
-enum KeyType { BLACK, WHITE }
-enum NotchType { ABOVE, BELOW, BOTH }
+enum KeyType { black, white }
+enum NotchType { above, below, both }
 
 KeyType getKeyType(int key) {
   switch (key % 12) {
@@ -11,9 +11,9 @@ KeyType getKeyType(int key) {
     case 6:
     case 9:
     case 11:
-      return KeyType.BLACK;
+      return KeyType.black;
     default:
-      return KeyType.WHITE;
+      return KeyType.white;
   }
 }
 
@@ -21,13 +21,13 @@ NotchType getNotchType(int key) {
   final keyTypeBelow = getKeyType(key - 1);
   final keyTypeAbove = getKeyType(key + 1);
 
-  if (keyTypeAbove == KeyType.BLACK && keyTypeBelow == KeyType.WHITE) {
-    return NotchType.ABOVE;
-  } else if (keyTypeAbove == KeyType.WHITE && keyTypeBelow == KeyType.BLACK) {
-    return NotchType.BELOW;
+  if (keyTypeAbove == KeyType.black && keyTypeBelow == KeyType.white) {
+    return NotchType.above;
+  } else if (keyTypeAbove == KeyType.white && keyTypeBelow == KeyType.black) {
+    return NotchType.below;
   }
 
-  return NotchType.BOTH;
+  return NotchType.both;
 }
 
 double keyValueToPixels({
@@ -182,7 +182,7 @@ List<int> factors(int x) {
   sqrt += i;
 
   var primes = allPrimesUntil(sqrt);
-  
+
 //   print("All primes up to and including ${sqrt}: ${primes}");
 
   outer:
