@@ -290,7 +290,7 @@ List<DivisionChange> getDivisionChanges({
   var divisionStartPtr = 0;
   var divisionBarLength = 1;
 
-  var processTimeSignatureChange = (TimeSignatureChange change) {
+  processTimeSignatureChange(TimeSignatureChange change) {
     var lastDivisionSize = change.offset - divisionStartPtr;
     startLabelPtr += lastDivisionSize ~/ divisionBarLength;
     if (lastDivisionSize % divisionBarLength > 0) {
@@ -317,7 +317,7 @@ List<DivisionChange> getDivisionChanges({
       distanceBetween: nthDivision,
       startLabel: startLabelPtr,
     );
-  };
+  }
 
   if (timeSignatureChanges.isEmpty || timeSignatureChanges[0].offset > 0) {
     result.add(processTimeSignatureChange(
