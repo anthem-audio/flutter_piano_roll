@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_piano_roll/helpers.dart';
+import 'package:flutter_piano_roll/paino_roll_notifications.dart';
 import 'package:flutter_piano_roll/pattern.dart';
 import 'package:flutter_piano_roll/piano_roll_grid.dart';
 import 'package:flutter_piano_roll/timeline.dart';
@@ -277,18 +278,4 @@ class NoteWidget extends HookWidget {
       ),
     );
   }
-}
-
-// Notifications that describe pointer events on notes. How they are handled
-// will depend on the current state of the piano roll controller.
-class NotePointerNotification extends Notification {
-  NotePointerNotification({
-    required this.noteID,
-    required this.pressed,
-    required this.isRightClick,
-  });
-
-  final int noteID;
-  final bool pressed;
-  final bool isRightClick;
 }
