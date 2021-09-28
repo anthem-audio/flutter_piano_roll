@@ -38,10 +38,6 @@ class AppWrapper extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    var ctrl = useState(false);
-    var alt = useState(false);
-    var shift = useState(false);
-
     return RawKeyboardListener(
       focusNode: FocusNode(),
       autofocus: true,
