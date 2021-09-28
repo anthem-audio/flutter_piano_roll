@@ -121,10 +121,10 @@ class PianoRollBackgroundPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant PianoRollBackgroundPainter oldDelegate) {
-    return oldDelegate.keyHeight != this.keyHeight ||
-        oldDelegate.keyValueAtTop != this.keyValueAtTop ||
-        oldDelegate.timeViewStart != this.timeViewStart ||
-        oldDelegate.timeViewEnd != this.timeViewEnd;
+    return oldDelegate.keyHeight != keyHeight ||
+        oldDelegate.keyValueAtTop != keyValueAtTop ||
+        oldDelegate.timeViewStart != timeViewStart ||
+        oldDelegate.timeViewEnd != timeViewEnd;
   }
 }
 
@@ -151,8 +151,9 @@ void paintVerticalLines({
     var thisDivision = divisionChanges[i];
     var nextDivisionStart = 0x7FFFFFFFFFFFFFFF; // int max
 
-    if (i < divisionChanges.length - 1)
+    if (i < divisionChanges.length - 1) {
       nextDivisionStart = divisionChanges[i + 1].offset;
+    }
 
     if (timePtr >= nextDivisionStart) {
       timePtr = nextDivisionStart;

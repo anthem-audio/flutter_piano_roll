@@ -209,8 +209,9 @@ class TimelinePainter extends CustomPainter {
       var thisDivision = divisionChanges[i];
       var nextDivisionStart = 0x7FFFFFFFFFFFFFFF; // int max
 
-      if (i < divisionChanges.length - 1)
+      if (i < divisionChanges.length - 1) {
         nextDivisionStart = divisionChanges[i + 1].offset;
+      }
 
       if (timePtr >= nextDivisionStart) {
         timePtr = nextDivisionStart;
@@ -226,17 +227,17 @@ class TimelinePainter extends CustomPainter {
             viewPixelWidth: size.width,
             time: timePtr.toDouble());
 
-        TextSpan span = new TextSpan(
-            style: new TextStyle(color: Color(0xFFFFFFFF).withOpacity(0.6)),
+        TextSpan span = TextSpan(
+            style: TextStyle(color: Color(0xFFFFFFFF).withOpacity(0.6)),
             text: barNumber.toString());
-        TextPainter textPainter = new TextPainter(
+        TextPainter textPainter = TextPainter(
             text: span,
             textAlign: TextAlign.left,
             textDirection: TextDirection.ltr);
         textPainter.layout();
         // TODO: replace height constant
         textPainter.paint(
-            canvas, new Offset(x, (21 - textPainter.size.height) / 2));
+            canvas, Offset(x, (21 - textPainter.size.height) / 2));
 
         timePtr += thisDivision.divisionRenderSize;
         barNumber += thisDivision.distanceBetween;
@@ -248,8 +249,8 @@ class TimelinePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(TimelinePainter oldDelegate) {
-    return oldDelegate.timeViewStart != this.timeViewStart ||
-        oldDelegate.timeViewEnd != this.timeViewEnd;
+    return oldDelegate.timeViewStart != timeViewStart ||
+        oldDelegate.timeViewEnd != timeViewEnd;
   }
 
   @override

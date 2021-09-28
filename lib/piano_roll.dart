@@ -62,7 +62,7 @@ class _PianoRollContent extends HookWidget {
     final keyHeight = useState<double>(20);
 
     final timelineHeight =
-        pattern.timeSignatureChanges.length > 0 ? 42.0 : 21.0;
+        pattern.timeSignatureChanges.isNotEmpty ? 42.0 : 21.0;
 
     return Column(
       children: [
@@ -238,7 +238,7 @@ class NoteLayoutDelegate extends MultiChildLayoutDelegate {
 }
 
 class NoteWidget extends HookWidget {
-  NoteWidget({Key? key, required this.noteID}) : super(key: key);
+  const NoteWidget({Key? key, required this.noteID}) : super(key: key);
 
   final int noteID;
 

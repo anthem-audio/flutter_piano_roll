@@ -47,9 +47,9 @@ class PianoControl extends HookWidget {
             if (!keyboardModifiers.alt) {
               final keyDelta =
                   (e.localPosition.dy - startPixelValue.value) / keyHeight;
-              this.setKeyValueAtTop(startTopKeyValue.value + keyDelta);
+              setKeyValueAtTop(startTopKeyValue.value + keyDelta);
             } else {
-              this.setKeyHeight((startKeyHeightValue.value +
+              setKeyHeight((startKeyHeightValue.value +
                       (e.localPosition.dy - startPixelValue.value) / 3)
                   .clamp(4, 50));
             }

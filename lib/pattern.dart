@@ -41,7 +41,7 @@ class Pattern with ChangeNotifier, DiagnosticableTreeMixin {
   TimeSignature _baseTimeSignature = TimeSignature(4, 4);
   TimeSignature get baseTimeSignature => _baseTimeSignature;
   void setBaseTimeSignature(TimeSignature timeSignature) {
-    this._baseTimeSignature = timeSignature;
+    _baseTimeSignature = timeSignature;
     notifyListeners();
   }
 
@@ -64,7 +64,7 @@ class Pattern with ChangeNotifier, DiagnosticableTreeMixin {
   ];
 
   void mutateNotes(void Function(List<Note> notes) mutator) {
-    mutator(this.notes);
+    mutator(notes);
     notifyListeners();
   }
 
