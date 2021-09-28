@@ -1,5 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_piano_roll/paino_roll_notifications.dart';
+import 'package:flutter_piano_roll/pattern.dart';
+import 'package:provider/provider.dart';
 
 class PianoRollController extends StatelessWidget {
   const PianoRollController({Key? key, required this.child}) : super(key: key);
@@ -10,7 +12,10 @@ class PianoRollController extends StatelessWidget {
   Widget build(BuildContext context) {
     return NotificationListener<PianoRollNotification>(
         onNotification: (notification) {
-          
+          // print("hi");
+          Provider.of<Pattern>(context, listen: false).mutateNotes((notes) {
+            notes.removeLast();
+          });
           return true;
         },
         child: child);

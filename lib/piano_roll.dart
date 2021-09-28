@@ -249,19 +249,20 @@ class NoteWidget extends HookWidget {
     return Listener(
       // TODO: Send off notification on focus loss (?) or people will be very confused maybe
       onPointerDown: (e) {
-        NotePointerNotification(
-          isRightClick: e.buttons == kSecondaryMouseButton,
-          pressed: true,
-          noteID: 1,
-        ).dispatch(context);
+        // NotePointerNotification(
+        //   isRightClick: e.buttons == kSecondaryMouseButton,
+        //   pressed: true,
+        //   noteID: 1,
+        // ).dispatch(context);
+        PianoRollNotification().dispatch(context);
       },
-      onPointerUp: (e) {
-        NotePointerNotification(
-          isRightClick: e.buttons == kSecondaryMouseButton,
-          pressed: false,
-          noteID: 1,
-        ).dispatch(context);
-      },
+      // onPointerUp: (e) {
+      //   NotePointerNotification(
+      //     isRightClick: e.buttons == kSecondaryMouseButton,
+      //     pressed: false,
+      //     noteID: 1,
+      //   ).dispatch(context);
+      // },
       child: MouseRegion(
         onEnter: (e) {
           isHovered.value = true;

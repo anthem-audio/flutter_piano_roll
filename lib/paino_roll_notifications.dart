@@ -14,7 +14,8 @@ class NotePointerNotification extends Notification {
   final bool isRightClick;
 }
 
-abstract class PianoRollNotification extends Notification {}
+// abstract class PianoRollNotification extends Notification {}
+class PianoRollNotification extends Notification {}
 
 abstract class PianoRollPointerNotification extends Notification {
   PianoRollPointerNotification({
