@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_piano_roll/helpers.dart';
-import 'package:flutter_piano_roll/paino_roll_notifications.dart';
+import 'package:flutter_piano_roll/piano_roll_notifications.dart';
 import 'package:flutter_piano_roll/pattern.dart';
 import 'package:flutter_piano_roll/piano_roll_grid.dart';
 import 'package:flutter_piano_roll/timeline.dart';
@@ -101,7 +101,7 @@ class _PianoRollContent extends HookWidget {
                   ],
                 ),
               ),
-              // Timeline and main paino roll render area
+              // Timeline and main piano roll render area
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(1, 1, 0, 0),

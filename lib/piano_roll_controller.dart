@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_piano_roll/paino_roll_notifications.dart';
+import 'package:flutter_piano_roll/piano_roll_notifications.dart';
 import 'package:flutter_piano_roll/pattern.dart';
 import 'package:provider/provider.dart';
 
