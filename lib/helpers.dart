@@ -59,6 +59,16 @@ double timeToPixels({
       viewPixelWidth;
 }
 
+double pixelsToTime({
+  required double timeViewStart,
+  required double timeViewEnd,
+  required double viewPixelWidth,
+  required double pixelOffsetFromLeft,
+}) {
+  final timeViewWidth = timeViewEnd - timeViewStart;
+  return (pixelOffsetFromLeft / viewPixelWidth) * timeViewWidth + timeViewStart;
+}
+
 class TimeView with ChangeNotifier, DiagnosticableTreeMixin {
   TimeView(this._start, this._end);
 

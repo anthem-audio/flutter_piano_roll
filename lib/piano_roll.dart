@@ -64,6 +64,71 @@ class _PianoRollContent extends HookWidget {
     final timelineHeight =
         pattern.timeSignatureChanges.isNotEmpty ? 42.0 : 21.0;
 
+    final pianoRollContentListenerKey = GlobalKey();
+
+    handlePointerDown(PointerDownEvent e) {
+      final context = pianoRollContentListenerKey.currentContext;
+      if (context == null) return;
+
+      final contentRenderBox = context.findRenderObject() as RenderBox;
+      final pointerPos = contentRenderBox.globalToLocal(e.position);
+
+      PianoRollPointerDownNotification(
+              note: pixelsToKeyValue(
+                  keyHeight: keyHeight.value,
+                  keyValueAtTop: keyValueAtTop.value,
+                  pixelOffsetFromTop: pointerPos.dy),
+              time: pixelsToTime(
+                  timeViewStart: timeView.start,
+                  timeViewEnd: timeView.end,
+                  viewPixelWidth: context.size?.width ?? 1,
+                  pixelOffsetFromLeft: pointerPos.dx),
+              event: e)
+          .dispatch(context);
+    }
+
+    handlePointerMove(PointerMoveEvent e) {
+      final context = pianoRollContentListenerKey.currentContext;
+      if (context == null) return;
+
+      final contentRenderBox = context.findRenderObject() as RenderBox;
+      final pointerPos = contentRenderBox.globalToLocal(e.position);
+
+      PianoRollPointerMoveNotification(
+        note: pixelsToKeyValue(
+            keyHeight: keyHeight.value,
+            keyValueAtTop: keyValueAtTop.value,
+            pixelOffsetFromTop: pointerPos.dy),
+        time: pixelsToTime(
+            timeViewStart: timeView.start,
+            timeViewEnd: timeView.end,
+            viewPixelWidth: context.size?.width ?? 1,
+            pixelOffsetFromLeft: pointerPos.dx),
+        event: e,
+      ).dispatch(context);
+    }
+
+    handlePointerUp(PointerUpEvent e) {
+      final context = pianoRollContentListenerKey.currentContext;
+      if (context == null) return;
+
+      final contentRenderBox = context.findRenderObject() as RenderBox;
+      final pointerPos = contentRenderBox.globalToLocal(e.position);
+
+      PianoRollPointerUpNotification(
+        note: pixelsToKeyValue(
+            keyHeight: keyHeight.value,
+            keyValueAtTop: keyValueAtTop.value,
+            pixelOffsetFromTop: pointerPos.dy),
+        time: pixelsToTime(
+            timeViewStart: timeView.start,
+            timeViewEnd: timeView.end,
+            viewPixelWidth: context.size?.width ?? 1,
+            pixelOffsetFromLeft: pointerPos.dx),
+        event: e,
+      ).dispatch(context);
+    }
+
     return Column(
       children: [
         Expanded(
@@ -115,33 +180,39 @@ class _PianoRollContent extends HookWidget {
                         ),
                       ),
                       Expanded(
-                        child: Stack(
-                          fit: StackFit.expand,
-                          children: [
-                            PianoRollGrid(
-                              keyHeight: keyHeight.value,
-                              keyValueAtTop: keyValueAtTop.value,
-                            ),
-                            ClipRect(
-                              child: CustomMultiChildLayout(
-                                children: pattern.notes
-                                    .map(
-                                      (note) => LayoutId(
-                                        id: note.id,
-                                        child: NoteWidget(noteID: note.id),
-                                      ),
-                                    )
-                                    .toList(),
-                                delegate: NoteLayoutDelegate(
-                                  notes: pattern.notes,
-                                  keyHeight: keyHeight.value,
-                                  keyValueAtTop: keyValueAtTop.value,
-                                  timeViewStart: timeView.start,
-                                  timeViewEnd: timeView.end,
+                        child: Listener(
+                          key: pianoRollContentListenerKey,
+                          onPointerDown: handlePointerDown,
+                          onPointerMove: handlePointerMove,
+                          onPointerUp: handlePointerUp,
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              PianoRollGrid(
+                                keyHeight: keyHeight.value,
+                                keyValueAtTop: keyValueAtTop.value,
+                              ),
+                              ClipRect(
+                                child: CustomMultiChildLayout(
+                                  children: pattern.notes
+                                      .map(
+                                        (note) => LayoutId(
+                                          id: note.id,
+                                          child: NoteWidget(noteID: note.id),
+                                        ),
+                                      )
+                                      .toList(),
+                                  delegate: NoteLayoutDelegate(
+                                    notes: pattern.notes,
+                                    keyHeight: keyHeight.value,
+                                    keyValueAtTop: keyValueAtTop.value,
+                                    timeViewStart: timeView.start,
+                                    timeViewEnd: timeView.end,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -254,7 +325,7 @@ class NoteWidget extends HookWidget {
         //   pressed: true,
         //   noteID: 1,
         // ).dispatch(context);
-        PianoRollNotification().dispatch(context);
+        // PianoRollNotification().dispatch(context);
       },
       // onPointerUp: (e) {
       //   NotePointerNotification(

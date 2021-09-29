@@ -14,13 +14,13 @@ class NotePointerNotification extends Notification {
   final bool isRightClick;
 }
 
-// abstract class PianoRollNotification extends Notification {}
-class PianoRollNotification extends Notification {}
+abstract class PianoRollNotification extends Notification {}
 
-abstract class PianoRollPointerNotification extends Notification {
+abstract class PianoRollPointerNotification extends PianoRollNotification {
   PianoRollPointerNotification({
     required this.note,
     required this.time,
+    required this.event,
   });
 
   // MIDI note at cursor. Fraction indicates position in note.
@@ -28,25 +28,31 @@ abstract class PianoRollPointerNotification extends Notification {
 
   // Time at cursor. Fraction indicates position within tick.
   final double time;
+
+  // Determines if this is caused by a right click.
+  final PointerEvent event;
 }
 
 class PianoRollPointerDownNotification extends PianoRollPointerNotification {
   PianoRollPointerDownNotification({
     required double note,
     required double time,
-  }) : super(note: note, time: time);
+    required PointerDownEvent event,
+  }) : super(note: note, time: time, event: event);
 }
 
 class PianoRollPointerMoveNotification extends PianoRollPointerNotification {
   PianoRollPointerMoveNotification({
     required double note,
     required double time,
-  }) : super(note: note, time: time);
+    required PointerMoveEvent event,
+  }) : super(note: note, time: time, event: event);
 }
 
 class PianoRollPointerUpNotification extends PianoRollPointerNotification {
   PianoRollPointerUpNotification({
     required double note,
     required double time,
-  }) : super(note: note, time: time);
+    required PointerUpEvent event,
+  }) : super(note: note, time: time, event: event);
 }
