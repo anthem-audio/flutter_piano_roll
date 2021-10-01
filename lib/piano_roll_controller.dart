@@ -48,13 +48,17 @@ class PianoRollController extends StatelessWidget {
             // A binary search might be better here, but it would only matter
             // if there were a *lot* of time signature changes in the pattern
             for (var i = 0; i < divisionChanges.length; i++) {
-              if (i < divisionChanges.length - 1 && divisionChanges[i + 1].offset > notificationTime) {
+              if (notificationTime < 0 ||
+                  (i < divisionChanges.length - 1 &&
+                      divisionChanges[i + 1].offset <= notificationTime)) {
                 continue;
               }
 
               final divisionChange = divisionChanges[i];
               final snapSize = divisionChange.divisionSnapSize;
               targetTime = (notificationTime ~/ snapSize) * snapSize;
+              print(i);
+              break;
             }
 
             pattern.mutateNotes((notes) {
