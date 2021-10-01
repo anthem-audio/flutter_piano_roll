@@ -249,19 +249,11 @@ class NoteLayoutDelegate extends MultiChildLayoutDelegate {
   @override
   void performLayout(Size size) {
     for (var note in notes) {
-      // layoutChild(
-      //   1,
-      // BoxConstraints(
-      //   maxWidth: size.width,
-      //   maxHeight: size.height,
-      // ),
-      // );
-      // positionChild(1, Offset(5, 21));
-
       final y = keyValueToPixels(
               keyValue: note.key.toDouble(),
               keyValueAtTop: keyValueAtTop,
-              keyHeight: keyHeight) +
+              keyHeight: keyHeight) -
+          keyHeight +
           // this is why I want Dart support for Prettier
           1;
       final height = keyHeight.toDouble() - 1;

@@ -19,8 +19,7 @@ class PianoRollController extends StatelessWidget {
             Provider.of<Pattern>(context, listen: false).mutateNotes((notes) {
               notes.add(Note(
                   id: getID(),
-                  // TODO: This should absolutely be floor(). This means there's a bug elsewhere.
-                  key: notification.note.ceil(),
+                  key: notification.note.floor(),
                   length: 96,
                   offset: notification.time.floor(),
                   velocity: 128));
