@@ -14,14 +14,19 @@ class NotePointerNotification extends Notification {
   final bool isRightClick;
 }
 
-abstract class PianoRollNotification extends Notification {}
+abstract class PianoRollNotification extends Notification {
+  PianoRollNotification({required this.pianoRollSize});
+
+  final Size pianoRollSize;
+}
 
 abstract class PianoRollPointerNotification extends PianoRollNotification {
   PianoRollPointerNotification({
     required this.note,
     required this.time,
     required this.event,
-  });
+    required Size pianoRollSize,
+  }) : super(pianoRollSize: pianoRollSize);
 
   // MIDI note at cursor. Fraction indicates position in note.
   final double note;
@@ -38,7 +43,13 @@ class PianoRollPointerDownNotification extends PianoRollPointerNotification {
     required double note,
     required double time,
     required PointerDownEvent event,
-  }) : super(note: note, time: time, event: event);
+    required Size pianoRollSize,
+  }) : super(
+          note: note,
+          time: time,
+          event: event,
+          pianoRollSize: pianoRollSize,
+        );
 }
 
 class PianoRollPointerMoveNotification extends PianoRollPointerNotification {
@@ -46,7 +57,13 @@ class PianoRollPointerMoveNotification extends PianoRollPointerNotification {
     required double note,
     required double time,
     required PointerMoveEvent event,
-  }) : super(note: note, time: time, event: event);
+    required Size pianoRollSize,
+  }) : super(
+          note: note,
+          time: time,
+          event: event,
+          pianoRollSize: pianoRollSize,
+        );
 }
 
 class PianoRollPointerUpNotification extends PianoRollPointerNotification {
@@ -54,5 +71,11 @@ class PianoRollPointerUpNotification extends PianoRollPointerNotification {
     required double note,
     required double time,
     required PointerUpEvent event,
-  }) : super(note: note, time: time, event: event);
+    required Size pianoRollSize,
+  }) : super(
+          note: note,
+          time: time,
+          event: event,
+          pianoRollSize: pianoRollSize,
+        );
 }
