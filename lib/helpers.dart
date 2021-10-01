@@ -193,8 +193,6 @@ List<int> factors(int x) {
 
   var primes = allPrimesUntil(sqrt);
 
-//   print("All primes up to and including ${sqrt}: ${primes}");
-
   outer:
   for (var p in primes) {
     while (curn % p == 0) {
