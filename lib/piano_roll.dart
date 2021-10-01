@@ -74,17 +74,18 @@ class _PianoRollContent extends HookWidget {
       final pointerPos = contentRenderBox.globalToLocal(e.position);
 
       PianoRollPointerDownNotification(
-              note: pixelsToKeyValue(
-                  keyHeight: keyHeight.value,
-                  keyValueAtTop: keyValueAtTop.value,
-                  pixelOffsetFromTop: pointerPos.dy),
-              time: pixelsToTime(
-                  timeViewStart: timeView.start,
-                  timeViewEnd: timeView.end,
-                  viewPixelWidth: context.size?.width ?? 1,
-                  pixelOffsetFromLeft: pointerPos.dx),
-              event: e)
-          .dispatch(context);
+        note: pixelsToKeyValue(
+            keyHeight: keyHeight.value,
+            keyValueAtTop: keyValueAtTop.value,
+            pixelOffsetFromTop: pointerPos.dy),
+        time: pixelsToTime(
+            timeViewStart: timeView.start,
+            timeViewEnd: timeView.end,
+            viewPixelWidth: context.size?.width ?? 1,
+            pixelOffsetFromLeft: pointerPos.dx),
+        event: e,
+        pianoRollSize: contentRenderBox.size,
+      ).dispatch(context);
     }
 
     handlePointerMove(PointerMoveEvent e) {
@@ -105,6 +106,7 @@ class _PianoRollContent extends HookWidget {
             viewPixelWidth: context.size?.width ?? 1,
             pixelOffsetFromLeft: pointerPos.dx),
         event: e,
+        pianoRollSize: contentRenderBox.size,
       ).dispatch(context);
     }
 
@@ -126,6 +128,7 @@ class _PianoRollContent extends HookWidget {
             viewPixelWidth: context.size?.width ?? 1,
             pixelOffsetFromLeft: pointerPos.dx),
         event: e,
+        pianoRollSize: contentRenderBox.size,
       ).dispatch(context);
     }
 
