@@ -70,11 +70,12 @@ class AppWrapper extends HookWidget {
         children: [
           ImageFiltered(
             imageFilter: ImageFilter.blur(sigmaX: 60, sigmaY: 60),
-            child: Image.asset("assets/images/background-small.jpg",
-                fit: BoxFit.cover),
-          ),
-          Container(
-            color: const Color.fromARGB(77, 0, 0, 0),
+            child: Image.asset(
+              "assets/images/background-small.jpg",
+              fit: BoxFit.cover,
+              color: const Color.fromARGB(77, 0, 0, 0),
+              colorBlendMode: BlendMode.luminosity,
+            ),
           ),
           const PianoRollController(child: PianoRoll()),
         ],
