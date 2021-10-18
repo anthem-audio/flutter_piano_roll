@@ -1,8 +1,9 @@
 import 'package:flutter/widgets.dart';
+
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_piano_roll/helpers.dart';
 
 import 'globals.dart';
+import 'helpers.dart';
 
 class DragInfo {
   double startX;

@@ -1,12 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter/widgets.dart';
+
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_piano_roll/pattern.dart';
 import 'package:provider/provider.dart';
 
 import 'globals.dart';
 import 'helpers.dart';
+import 'pattern.dart';
 
 final _timelineKey = GlobalKey();
 

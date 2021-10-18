@@ -1,13 +1,15 @@
 import 'dart:ui';
+
 import 'package:flutter/widgets.dart';
+
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_piano_roll/helpers.dart';
-import 'package:flutter_piano_roll/piano_roll.dart';
-import 'package:flutter_piano_roll/piano_roll_controller.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_piano_roll/pattern.dart';
 
 import 'globals.dart';
+import 'helpers.dart';
+import 'pattern.dart';
+import 'piano_roll.dart';
+import 'piano_roll_controller.dart';
 
 void main() {
   runApp(

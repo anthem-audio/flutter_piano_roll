@@ -2,13 +2,15 @@ import 'dart:math';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
+
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_piano_roll/helpers.dart';
-import 'package:flutter_piano_roll/piano_roll_notifications.dart';
-import 'package:flutter_piano_roll/pattern.dart';
-import 'package:flutter_piano_roll/piano_roll_grid.dart';
-import 'package:flutter_piano_roll/timeline.dart';
 import 'package:provider/provider.dart';
+
+import 'helpers.dart';
+import 'pattern.dart';
+import 'piano_roll_grid.dart';
+import 'piano_roll_notifications.dart';
+import 'timeline.dart';
 
 import './piano_control.dart';
 

@@ -1,7 +1,9 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_piano_roll/helpers.dart';
+
 import 'package:provider/provider.dart';
-import 'package:flutter_piano_roll/pattern.dart';
+
+import 'helpers.dart';
+import 'pattern.dart';
 
 class PianoRollGrid extends StatelessWidget {
   const PianoRollGrid({
