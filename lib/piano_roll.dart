@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -275,7 +277,7 @@ class NoteLayoutDelegate extends MultiChildLayoutDelegate {
 
       layoutChild(
         note.id,
-        BoxConstraints(maxHeight: height, maxWidth: width),
+        BoxConstraints(maxHeight: height, maxWidth: max(width, 0)),
       );
       positionChild(note.id, Offset(startX, y));
     }
