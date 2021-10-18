@@ -42,26 +42,9 @@ class AppWrapper extends HookWidget {
       focusNode: FocusNode(),
       autofocus: true,
       onKey: (e) {
-        var type = e.runtimeType.toString();
-
-        var keyDown = type == 'RawKeyDownEvent';
-        var keyUp = type == 'RawKeyUpEvent';
-
-        print(e.logicalKey.keyLabel);
-
-        var ctrl = e.logicalKey.keyLabel == "Control Left" ||
-            e.logicalKey.keyLabel == "Control Right";
-        var alt = e.logicalKey.keyLabel == "Alt Left" ||
-            e.logicalKey.keyLabel == "Alt Right";
-        var shift = e.logicalKey.keyLabel == "Shift Left" ||
-            e.logicalKey.keyLabel == "Shift Right";
-
-        if (ctrl && keyDown) keyboardModifiers.ctrl = true;
-        if (ctrl && keyUp) keyboardModifiers.ctrl = false;
-        if (alt && keyDown) keyboardModifiers.alt = true;
-        if (alt && keyUp) keyboardModifiers.alt = false;
-        if (shift && keyDown) keyboardModifiers.shift = true;
-        if (shift && keyUp) keyboardModifiers.shift = false;
+        keyboardModifiers.control = e.isControlPressed;
+        keyboardModifiers.alt = e.isAltPressed;
+        keyboardModifiers.shift = e.isShiftPressed;
       },
       child: Stack(
         fit: StackFit.expand,
