@@ -1,8 +1,10 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_piano_roll/globals.dart';
-import 'package:flutter_piano_roll/piano_roll_notifications.dart';
-import 'package:flutter_piano_roll/pattern.dart';
+
 import 'package:provider/provider.dart';
+
+import 'globals.dart';
+import 'pattern.dart';
+import 'piano_roll_notifications.dart';
 
 import 'helpers.dart';
 

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_piano_roll/pattern.dart';
+
+import 'pattern.dart';
 
 enum KeyType { black, white }
 enum NotchType { above, below, both }
